@@ -7,7 +7,7 @@
     ],
     "precious": true,
     "dependencies": {
-        "esp-server": "~1.0",
+        "esp-mvc": "~1.0",
         "angular": "~1.2"
     },
     "client-scripts": [
