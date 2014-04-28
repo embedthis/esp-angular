@@ -1,16 +1,33 @@
 {
     "name": "esp-angular",
     "description": "Embedthis ESP for Angular",
-    "version": "1.0.0-rc0",
+    "version": "5.0.0-rc0",
     "keywords": [
         "esp",
     ],
-    "precious": true,
     "dependencies": {
-        "esp-mvc": "~1.0",
+        "esp-mvc": "~5.0",
         "angular": "~1.2"
     },
+    "licenses": [
+        {
+            "type": "GPL",
+            "url": "http://www.gnu.org/licenses/gpl-2.0.html"
+        },
+        {
+            "type": "Commercial",
+            "url": "http://embedthis.com/licensing/"
+        }
+    ],
+    "export": [
+        {
+            from: [
+                "*.js",
+            ],
+            to: '${JSLIB}/esp-angular',
+        }
+    ],
     "client-scripts": [
-        "${PAKS}/esp-angular/*.js"
+        "${JSLIB}/esp-angular/*.js"
     ]
 }
