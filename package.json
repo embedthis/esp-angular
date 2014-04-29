@@ -24,10 +24,10 @@
             from: [
                 "*.js",
             ],
-            to: '${JSLIB}/esp-angular',
+            to: '${LIB}/esp-angular',
         }
     ],
     "client-scripts": [
-        "${JSLIB}/esp-angular/*.js"
+        "${LIB}/esp-angular/*.js"
     ]
 }
