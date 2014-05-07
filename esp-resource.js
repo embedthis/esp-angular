@@ -7,26 +7,26 @@ angular.module('esp.resource', [])
 .factory('EspResource', function(Esp, $http, $parse, $q, $rootScope) {
 
     var GroupActions = {
-        'create': { 'method': 'POST',   url: '/:prefix/:controller' },
-        'edit':   { 'method': 'GET',    url: '/:prefix/:controller/:id/edit' },
-        'get':    { 'method': 'GET',    url: '/:prefix/:controller/:id' },
-        'init':   { 'method': 'GET',    url: '/:prefix/:controller/init' },
-        'list':   { 'method': 'GET',    url: '/:prefix/:controller/list' },
-        'remove': { 'method': 'DELETE', url: '/:prefix/:controller/:id' },
-        'update': { 'method': 'POST',   url: '/:prefix/:controller/:id' },
+        'create': { 'method': 'POST',   url: '/:server/:controller' },
+        'edit':   { 'method': 'GET',    url: '/:server/:controller/:id/edit' },
+        'get':    { 'method': 'GET',    url: '/:server/:controller/:id' },
+        'init':   { 'method': 'GET',    url: '/:server/:controller/init' },
+        'list':   { 'method': 'GET',    url: '/:server/:controller/list' },
+        'remove': { 'method': 'DELETE', url: '/:server/:controller/:id' },
+        'update': { 'method': 'POST',   url: '/:server/:controller/:id' },
     };          
     var SingletonActions = {
-        'create': { 'method': 'POST',   url: '/:prefix/:controller' },
-        'edit':   { 'method': 'GET',    url: '/:prefix/:controller/edit' },
-        'get':    { 'method': 'GET',    url: '/:prefix/:controller' },
-        'init':   { 'method': 'GET',    url: '/:prefix/:controller/init' },
-        'remove': { 'method': 'DELETE', url: '/:prefix/:controller' },
-        'update': { 'method': 'POST',   url: '/:prefix/:controller' },
+        'create': { 'method': 'POST',   url: '/:server/:controller' },
+        'edit':   { 'method': 'GET',    url: '/:server/:controller/edit' },
+        'get':    { 'method': 'GET',    url: '/:server/:controller' },
+        'init':   { 'method': 'GET',    url: '/:server/:controller/init' },
+        'remove': { 'method': 'DELETE', url: '/:server/:controller' },
+        'update': { 'method': 'POST',   url: '/:server/:controller' },
     };
     var DefaultParams = {
-        prefix: function() {
-            if (Esp.config && Esp.config.prefix) {
-                return Esp.config.prefix.slice(1);
+        server: function() {
+            if (Esp.config && Esp.config.server) {
+                return Esp.config.server.slice(1);
             }
             return "service";
         },          

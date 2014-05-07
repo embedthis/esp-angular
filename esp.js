@@ -23,9 +23,14 @@ angular.module('esp', ['esp.click', 'esp.edit', 'esp.field-errors', 'esp.fixnum'
         },
         login: {}
     }, esp.$config);
+    if (esp.$config.prefix) {
+        esp.$config.server = esp.$config.prefix + esp.$config.serverPrefix;
+    } else {
+        esp.$config.server = esp.$config.serverPrefix;
+    }
     /* URL resolution for ngRoute templates */
     esp.url = function(url) {
-        return esp.$config.appPrefix + url;
+        return esp.$config.prefix + url;
     }
 
 }).factory('Esp', function(SessionStore, $document, $http, $injector, $location, $rootScope, $timeout, $window) {
@@ -174,7 +179,7 @@ angular.module('esp', ['esp.click', 'esp.edit', 'esp.field-errors', 'esp.fixnum'
     };
 
     Esp.url = function (url) {
-        return Esp.config.appPrefix + url;
+        return Esp.config.prefix + url;
     }
 
     /******* body ********/
@@ -240,10 +245,10 @@ angular.module('esp', ['esp.click', 'esp.edit', 'esp.field-errors', 'esp.fixnum'
                 console.log("Session time remaining: ", (timeout - ((Date.now() - Esp.user.lastAccess))) / 1000, "secs");
             }
         } else {
-            if (Esp.config.login && esp.config.required && !Esp.config.login.name) {
+            if (Esp.config.login && Esp.config.login.url && !Esp.config.login.name) {
                 $rootScope.Esp.user = null;
                 $rootScope.feedback = { warning: "Session Expired, Please Log In"};
-                $location.path(Esp.config.login.required);
+                $location.path(Esp.config.login.url);
             }
         }
         $timeout(sessionTimeout, 60 * 1000, true);
@@ -279,9 +284,9 @@ angular.module('esp', ['esp.click', 'esp.edit', 'esp.field-errors', 'esp.fixnum'
                     }
                     /* Must use esp module as Esp depends on this interceptor */
                     var espModule = angular.module('esp');
-                    if (espModule.$config.login && espModule.login.required && !espModule.$config.login.name) {
+                    if (espModule.$config.login && espModule.login.url && !espModule.$config.login.name) {
                         $rootScope.Esp.user = null;
-                        $location.path(espModule.$config.login.required);
+                        $location.path(espModule.$config.login.url);
                     } else {
                         $rootScope.Esp.user = null;
                         $rootScope.feedback = response.data.feedback;
