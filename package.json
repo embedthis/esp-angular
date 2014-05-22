@@ -1,13 +1,13 @@
 {
     "name": "esp-angular",
     "description": "Embedthis ESP for Angular",
-    "version": "5.0.0-rc1",
+    "version": "4.6.0",
     "keywords": [
         "esp",
     ],
     "dependencies": {
-        "esp-mvc": "~5.0",
-        "angular": "~1.2"
+        "esp-mvc": "~4.6",
+        "angular": "~1.2.6"
     },
     "licenses": [ {
             "type": "GPL",
@@ -29,19 +29,19 @@
             "+scripts": [
                 "${LIB}/esp-angular/*.js"
             ],
-            "mappings": {
-                "auth":         'app.http.auth',
-                "prefix":       'app.http.prefix',
-                "serverPrefix": 'app.http.serverPrefix',
-                "formats":      'app.http.formats',
-                "login": {
-                    "name":     'app.http.auth.login.name',
-                    "url":      'app.http.auth.login.url',
-                },
-                "timeouts": {
-                    "session":  'app.http.timeouts.session',
-                    "refresh":  'app.http.timeouts.refresh',
-                }
+        },
+        "mappings": {
+            "auth":         'app.http.auth',
+            "prefix":       'app.http.prefix',
+            "serverPrefix": 'app.http.serverPrefix',
+            "formats":      'app.http.formats',
+            "login": {
+                "name":     'app.http.auth.login.name',
+                "url":      'app.http.auth.login.url',
+            },
+            "timeouts": {
+                "session":  'app.http.timeouts.session',
+                "refresh":  'app.http.timeouts.refresh',
             }
         }
     }
