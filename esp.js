@@ -16,16 +16,28 @@ angular.module('esp', ['esp.click', 'esp.edit', 'esp.field-errors', 'esp.fixnum'
      */
     var e = angular.element(document.getElementById('body'));
     var esp = angular.module('esp');
-    esp.$config = JSON.parse(e.attr('data-config'));
+    var config = e.attr('data-config');
+    if (config) {
+        esp.$config = JSON.parse(config);
+    } else {
+        esp.$config = {prefix:"",serverPrefix:"/do",formats:{response:"json"}};
+    }
     esp.$config = angular.extend({
         timeouts: {
             session: 1800,
         },
         login: {}
     }, esp.$config);
+
+    if (esp.$config.prefix) {
+        esp.$config.server = esp.$config.prefix + esp.$config.serverPrefix;
+    } else {
+        esp.$config.server = esp.$config.serverPrefix;
+    }
+
     /* URL resolution for ngRoute templates */
     esp.url = function(url) {
-        return esp.$config.appPrefix + url;
+        return esp.$config.prefix + url;
     }
 
 }).factory('Esp', function(SessionStore, $document, $http, $injector, $location, $rootScope, $timeout, $window) {
@@ -174,7 +186,7 @@ angular.module('esp', ['esp.click', 'esp.edit', 'esp.field-errors', 'esp.fixnum'
     };
 
     Esp.url = function (url) {
-        return Esp.config.appPrefix + url;
+        return Esp.config.prefix + url;
     }
 
     /******* body ********/
