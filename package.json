@@ -22,6 +22,7 @@
                 "*.js",
             ],
             to: '${LIB}/esp-angular',
+            overwrite: true,
         }
     ],
     "app": {
