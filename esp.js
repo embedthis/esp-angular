@@ -24,7 +24,7 @@ angular.module('esp', ['esp.click', 'esp.edit', 'esp.field-errors', 'esp.fixnum'
     }
     esp.$config = angular.extend({
         timeouts: {
-            session: 1800,
+            session: 1800 * 1000,
         },
         login: {}
     }, esp.$config);
@@ -197,7 +197,7 @@ angular.module('esp', ['esp.click', 'esp.edit', 'esp.field-errors', 'esp.fixnum'
     } else {
         Esp.user = SessionStore.get('user') || null;
         Esp.user.fromSession = true;
-        var timeout = Esp.config.timeouts.session * 1000;
+        var timeout = Esp.config.timeouts.session;
         if ((Esp.user.lastAccess + timeout) <  Date.now()) {
             Esp.user = null;
         }
@@ -238,7 +238,7 @@ angular.module('esp', ['esp.click', 'esp.edit', 'esp.field-errors', 'esp.fixnum'
                     }
                 });
             }
-            var timeout = Esp.config.timeouts.session * 1000;
+            var timeout = Esp.config.timeouts.session;
             if ((Date.now() - Esp.user.lastAccess) > timeout) {
                 $rootScope.feedback = { error: "Login Session Expired"};
                 console.log("Session time expired. Log out");
