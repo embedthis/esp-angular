@@ -19,6 +19,13 @@ angular.module('esp', ['esp.click', 'esp.edit', 'esp.field-errors', 'esp.fixnum'
     var config = e.attr('data-config');
     if (config) {
         esp.$config = JSON.parse(config);
+        if (esp.$config.login) {
+            var abilities = {}
+            angular.forEach(esp.$config.login.abilities, function(value,key) {
+                abilities[value] = true;
+            });
+            esp.$config.login.abilities = abilities;
+        }
     } else {
         esp.$config = {prefix:"",serverPrefix:"/do",formats:{response:"json"}};
     }
