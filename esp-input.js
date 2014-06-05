@@ -43,6 +43,8 @@ angular.module('esp.input', [])
                 var parts = name.split('.');
                 model = parts[0];
                 field = parts[1];
+            } else {
+                return;
             }
             value = attrs.value;
         
@@ -55,109 +57,111 @@ angular.module('esp.input', [])
                 return words.join(' ');
             }
 
-            scope.$watch('schema', function (val) {
-                if (element.parent().length && element.children().length == 0) {
-                    if (!value && scope[model]) {
-                        value = scope[model][field];
-                    }
-                    if (value) {
-                        value = '';
-                    }
-                    var dataType = scope.schema ? scope.schema.types[field].type : 'string';
-                    var inputClass = (attrs.inputClass) ? attrs.inputClass : 'col-xs-6';
-                    var errorHighlight = " ng-class='{\"has-error\": fieldErrors." + field + "}'";
-                    var label = attrs.label ? attrs.label : title(field);
-                    var labelClass = (attrs.labelClass) ? attrs.labelClass : 'col-xs-3';
-                    var tag, type;
-                    if (attrs.type) {
-                        type = attrs.type;
-                        if (type == 'textarea') { 
-                            tag = 'textarea'; 
+            if (field) {
+                scope.$watch('schema', function (val) {
+                    if (element.parent().length && element.children().length == 0) {
+                        if (!value && scope[model]) {
+                            value = scope[model][field];
+                        }
+                        if (value) {
+                            value = '';
+                        }
+                        var dataType = scope.schema ? scope.schema.types[field].type : 'string';
+                        var inputClass = (attrs.inputClass) ? attrs.inputClass : 'col-xs-6';
+                        var errorHighlight = " ng-class='{\"has-error\": fieldErrors." + field + "}'";
+                        var label = attrs.label ? attrs.label : title(field);
+                        var labelClass = (attrs.labelClass) ? attrs.labelClass : 'col-xs-3';
+                        var tag, type;
+                        if (attrs.type) {
+                            type = attrs.type;
+                            if (type == 'textarea') { 
+                                tag = 'textarea'; 
+                            } else {
+                                tag = 'input';
+                            }
                         } else {
-                            tag = 'input';
+                            tag = dataTypeToTag[dataType] || "input";
+                            type = dataTypeToTagType[dataType] || "text";
                         }
-                    } else {
-                        tag = dataTypeToTag[dataType] || "input";
-                        type = dataTypeToTagType[dataType] || "text";
-                    }
-                    var astr = '';
-                    if (!attrs.$attr['class']) {
-                        attrs.$attr['class'] = 'class';
-                        attrs['class'] = 'form-control input-small';
-                    }
-                    angular.forEach(attrs.$attr, function(avalue, key) {
-                        astr += ' ' + avalue + '="' + attrs[key] + '"';
-                    });
-                    var html = '';
-                    if (type == 'checkbox') {
-                        astr = astr.replace(/form-control/, '');
-                        if (scope.options) {
-                            angular.forEach(scope.options[field], function(value, key) {
-                                astr += ' ng-' + key + '-value="' + value + '"';
-                            });
+                        var astr = '';
+                        if (!attrs.$attr['class']) {
+                            attrs.$attr['class'] = 'class';
+                            attrs['class'] = 'form-control input-small';
                         }
-                        html =  '<label class="checkbox">' + 
-                                    '<' + tag + ' type="' + type + '"' + astr + '>' +
-                                '</label>';
-
-                    } else if (type == 'radio') {
-                        astr = astr.replace(/form-control/, '');
-                        if (scope.options) {
-                            angular.forEach(scope.options[field], function(value,key) {
-                                html = html + '<label class="radio">' + 
-                                        '<' + tag + ' type="' + type + '"' + astr + ' value="' + key + '"">' + value +
+                        angular.forEach(attrs.$attr, function(avalue, key) {
+                            astr += ' ' + avalue + '="' + attrs[key] + '"';
+                        });
+                        var html = '';
+                        if (type == 'checkbox') {
+                            astr = astr.replace(/form-control/, '');
+                            if (scope.options) {
+                                angular.forEach(scope.options[field], function(value, key) {
+                                    astr += ' ng-' + key + '-value="' + value + '"';
+                                });
+                            }
+                            html =  '<label class="checkbox">' + 
+                                        '<' + tag + ' type="' + type + '"' + astr + '>' +
                                     '</label>';
-                            });
-                        }
 
-                    } else if (type == 'select') {
-                        html = '<select ' + astr + '>';
-                        if (scope.options) {
-                            angular.forEach(scope.options[field], function(value,key) {
-                                html = html + '<option value="' + key + '"">' + value + '</option>';
-                            });
-                        }
-                    } else if (type == 'text') {
-                        html = '<' + tag + ' type="' + type + '"' + astr + '></' + tag + '>';
-                    } else {
-                        html = '<' + tag + ' type="' + type + '"' + astr + '>';
-                    }
-                    html = '<div class="form-group">' +
-                                '<label class="control-label ' + labelClass + '">' + label + '</label>' +
-                                '<div class="input-group ' + inputClass + '"' + errorHighlight + '>' + 
-                                    html + 
-                                    '<span class="field-error" ng-show="fieldErrors.' + field + '">{{fieldErrors.' + field + '}}</span>' +
-                                '</div>' +
-                            '</div>';
-                    var newelt = angular.element(html);
-                    element.append(newelt);
-                    element.removeAttr('class');
-                    element.removeAttr('ng-model');
-                    element.removeAttr('readonly');
-                    $compile(newelt)(scope);
+                        } else if (type == 'radio') {
+                            astr = astr.replace(/form-control/, '');
+                            if (scope.options) {
+                                angular.forEach(scope.options[field], function(value,key) {
+                                    html = html + '<label class="radio">' + 
+                                            '<' + tag + ' type="' + type + '"' + astr + ' value="' + key + '"">' + value +
+                                        '</label>';
+                                });
+                            }
 
-                    if (attrs.filter) {
-                        var filterParts = attrs.filter.split(':');
-                        var kind = filterParts[0];
-                        filterParts.shift();
-                        var format = filterParts.join(':').replace(/^["']|["']$/g, '');
-                        if (dataType == 'date') {
-                            /* Convert to number first so formatting will work */
+                        } else if (type == 'select') {
+                            html = '<select ' + astr + '>';
+                            if (scope.options) {
+                                angular.forEach(scope.options[field], function(value,key) {
+                                    html = html + '<option value="' + key + '"">' + value + '</option>';
+                                });
+                            }
+                        } else if (type == 'text') {
+                            html = '<' + tag + ' type="' + type + '"' + astr + '></' + tag + '>';
+                        } else {
+                            html = '<' + tag + ' type="' + type + '"' + astr + '>';
+                        }
+                        html = '<div class="form-group">' +
+                                    '<label class="control-label ' + labelClass + '">' + label + '</label>' +
+                                    '<div class="input-group ' + inputClass + '"' + errorHighlight + '>' + 
+                                        html + 
+                                        '<span class="field-error" ng-show="fieldErrors.' + field + '">{{fieldErrors.' + field + '}}</span>' +
+                                    '</div>' +
+                                '</div>';
+                        var newelt = angular.element(html);
+                        element.append(newelt);
+                        element.removeAttr('class');
+                        element.removeAttr('ng-model');
+                        element.removeAttr('readonly');
+                        $compile(newelt)(scope);
+
+                        if (attrs.filter) {
+                            var filterParts = attrs.filter.split(':');
+                            var kind = filterParts[0];
+                            filterParts.shift();
+                            var format = filterParts.join(':').replace(/^["']|["']$/g, '');
+                            if (dataType == 'date') {
+                                /* Convert to number first so formatting will work */
+                                value = Date.parse(value);
+                            }
+                            if (scope[model]) {
+                                scope[model][field] = $filter(kind)(value, format);
+                            }
+                        } else if (type == 'date') {
+                            /* Convert to RFC3399 date as required for HTML5 date input controls */
                             value = Date.parse(value);
-                        }
-                        if (scope[model]) {
-                            scope[model][field] = $filter(kind)(value, format);
-                        }
-                    } else if (type == 'date') {
-                        /* Convert to RFC3399 date as required for HTML5 date input controls */
-                        value = Date.parse(value);
-                        value = $filter('date')(value, 'yyyy-MM-dd');
-                        if (scope[model]) {
-                            scope[model][field] = value;
+                            value = $filter('date')(value, 'yyyy-MM-dd');
+                            if (scope[model]) {
+                                scope[model][field] = value;
+                            }
                         }
                     }
-                }
-            });
+                });
+            }
         },
     }
 });
