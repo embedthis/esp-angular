@@ -83,7 +83,7 @@ angular.module('esp.resource', [])
                     var data = response.data;
                     mappings = prepMappings(mappings, params, data);
                     angular.forEach(mappings, function(value, key) {
-                        if (key == 'inform') {
+                        if (key == 'info') {
                             if (!data.error) {
                                 $rootScope.feedback = $rootScope.feedback || {};
                                 $rootScope.feedback[key] = value;

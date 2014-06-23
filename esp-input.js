@@ -63,7 +63,7 @@ angular.module('esp.input', [])
                         if (!value && scope[model]) {
                             value = scope[model][field];
                         }
-                        if (value) {
+                        if (value === null) {
                             value = '';
                         }
                         var dataType = scope.schema ? scope.schema.types[field].type : 'string';
@@ -112,6 +112,11 @@ angular.module('esp.input', [])
                                         '</label>';
                                 });
                             }
+
+                        } else if (type == 'range') {
+                            astr = astr.replace(/form-control/, '');
+                            html =  '<' + tag + ' type="' + type + '"' + astr + ' value="' + value + '">' +
+                                '<span class="input-group-addon">{{admin.level}}</span>';
 
                         } else if (type == 'select') {
                             html = '<select ' + astr + '>';
