@@ -298,7 +298,7 @@ angular.module('esp', ['esp.click', 'esp.edit', 'esp.field-errors', 'esp.fixnum'
                     }
                     /* Must use esp module as Esp depends on this interceptor */
                     var espModule = angular.module('esp');
-                    if (espModule.$config.login && espModule.login.url && !espModule.$config.login.name) {
+                    if (espModule.$config.login && espModule.$config.login.url && !espModule.$config.login.name) {
                         $rootScope.Esp.user = null;
                         $location.path(espModule.$config.login.url);
                     } else {
