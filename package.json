@@ -36,6 +36,7 @@
                 "serverPrefix": 'app.http.serverPrefix',
                 "formats":      'app.http.formats',
                 "login": {
+                    "abilities":'app.http.auth.login.abilities',
                     "name":     'app.http.auth.login.name',
                     "url":      'app.http.auth.login.url',
                 },

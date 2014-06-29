@@ -16,25 +16,43 @@ angular.module('esp', ['esp.click', 'esp.edit', 'esp.field-errors', 'esp.fixnum'
      */
     var e = angular.element(document.getElementById('body'));
     var esp = angular.module('esp');
-    var config = e.attr('data-config');
-    if (config) {
-        esp.$config = JSON.parse(config);
-        if (esp.$config.login) {
-            var abilities = {}
-            angular.forEach(esp.$config.login.abilities, function(value,key) {
-                abilities[value] = true;
-            });
-            esp.$config.login.abilities = abilities;
-        }
-    } else {
-        esp.$config = {prefix:"",serverPrefix:"/do",formats:{response:"json"}};
-    }
+    var config = e.attr('data-config') || '{}';
+    esp.$config = JSON.parse(config);
     esp.$config = angular.extend({
-        timeouts: {
-            session: 1800 * 1000,
-        },
-        login: {}
+        timeouts: { session: 1800000},
+        auth: {login: {}},
+        prefix:"",
+        serverPrefix:"/do",
+        formats:{response:"json"},
     }, esp.$config);
+
+    /* Convert abilities from an array to a hash */
+    var abilities = {}
+    angular.forEach(esp.$config.auth.login.abilities, function(value,key) {
+        abilities[value] = true;
+    });
+    esp.$config.auth.login.abilities = abilities;
+
+    angular.forEach(esp.$config.timeouts, function(value,key) {
+        var timeout = parseInt(value);
+        if (('' + timeout) != value) {
+            if (value.match(/min/)) {
+                timeout = timeout * 60 * 1000;
+            } else if (value.match(/sec/)) {
+                timeout = timeout * 3600 * 1000;
+            } else if (value.match(/hour/)) {
+                timeout = timeout * 3600 * 1000;
+            } else if (value.match(/day/)) {
+                timeout = timeout * 3600 * 24 * 1000;
+            } else if (value.match(/month/)) {
+                timeout = timeout * 3600 * 24 * 30 * 1000;
+            } else if (value.match(/year/)) {
+                timeout = timeout * 3600 * 24 * 365 * 1000;
+            }
+        }
+        esp.$config.timeouts[key] = timeout;
+    });
+
     if (esp.$config.prefix) {
         esp.$config.server = esp.$config.prefix + esp.$config.serverPrefix;
     } else {
@@ -200,8 +218,8 @@ angular.module('esp', ['esp.click', 'esp.edit', 'esp.field-errors', 'esp.fixnum'
     /*
         Recover the user session information. The server still validates.
      */
-    if (Esp.config.login && Esp.config.login.name) {
-        Esp.login(Esp.config.login);
+    if (Esp.config.auth.login.name) {
+        Esp.login(Esp.config.auth.login);
         Esp.user.auto = true;
     } else {
         Esp.user = SessionStore.get('user') || null;
@@ -259,10 +277,10 @@ angular.module('esp', ['esp.click', 'esp.edit', 'esp.field-errors', 'esp.fixnum'
                 console.log("Session time remaining: ", (timeout - ((Date.now() - Esp.user.lastAccess))) / 1000, "secs");
             }
         } else {
-            if (Esp.config.login && Esp.config.login.url && !Esp.config.login.name) {
+            if (Esp.config.auth.login.url && !Esp.config.auth.login.name) {
                 $rootScope.Esp.user = null;
                 $rootScope.feedback = { warn: "Session Expired, Please Log In"};
-                $location.path(Esp.config.login.url);
+                $location.path(Esp.config.auth.login.url);
             }
         }
         $timeout(sessionTimeout, 60 * 1000, true);
@@ -298,9 +316,9 @@ angular.module('esp', ['esp.click', 'esp.edit', 'esp.field-errors', 'esp.fixnum'
                     }
                     /* Must use esp module as Esp depends on this interceptor */
                     var espModule = angular.module('esp');
-                    if (espModule.$config.login && espModule.$config.login.url && !espModule.$config.login.name) {
+                    if (espModule.$config.auth.login.url && !espModule.$config.auth.login.name) {
                         $rootScope.Esp.user = null;
-                        $location.path(espModule.$config.login.url);
+                        $location.path(espModule.$config.auth.login.url);
                     } else {
                         $rootScope.Esp.user = null;
                         $rootScope.feedback = response.data.feedback;
@@ -326,7 +344,7 @@ esp.checkAuth = function($q, $location, $rootScope, $route, Esp) {
     var user = Esp.user
     for (var ability in requiredAbilities) {
         if (user && user.abilities && user.abilities[ability] == null) {
-            if ($location.path() != "/" && !Esp.config.login.name) {
+            if ($location.path() != "/" && !Esp.config.auth.login.name) {
                 $rootScope.feedback = { info: "Insufficient Privilege"};
                 $location.path(Esp.lastLocation || "/");
                 return $q.reject($rootScope.feedback);

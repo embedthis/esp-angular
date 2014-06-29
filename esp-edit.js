@@ -13,7 +13,7 @@ angular.module('esp.edit', [])
             attrs.$observe('esp-edit', function(val) {
                 element.on('click', function() {
                     scope.$apply(function() {
-                        if (!Esp.config.auth || Esp.can('edit')) {
+                        if (Esp.can('edit')) {
                             $location.path(attrs.espEdit);
                         } else {
                             /* Delay so that the feedback clear won't immediately erase */

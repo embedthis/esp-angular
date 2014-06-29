@@ -41,8 +41,9 @@ angular.module('esp.input', [])
             var value, model, field;
             if (name) {
                 var parts = name.split('.');
-                model = parts[0];
-                field = parts[1];
+                model = parts.slice(0, -1).join('.');
+                field = parts.slice(-1)[0];
+                console.log(model, field);
             } else {
                 return;
             }
@@ -66,7 +67,10 @@ angular.module('esp.input', [])
                         if (value === null) {
                             value = '';
                         }
-                        var dataType = scope.schema ? scope.schema.types[field].type : 'string';
+                        var dataType = 'string'
+                        if (scope.schema && scope.schema.types && scope.schema.types[field]) {
+                            dataType = scope.schema.types[field].type;
+                        }
                         var inputClass = (attrs.inputClass) ? attrs.inputClass : 'col-xs-6';
                         var errorHighlight = " ng-class='{\"has-error\": fieldErrors." + field + "}'";
                         var label = attrs.label ? attrs.label : title(field);
