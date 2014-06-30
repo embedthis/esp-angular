@@ -31,19 +31,14 @@
                 "${LIB}/esp-angular/*.js"
             ],
             "mappings": {
-                "auth":         'app.http.auth',
+                "auth": {
+                    "login": "app.http.auth.login",
+                    "store": "app.http.auth.store"
+                },
+                "formats":      'app.http.formats',
                 "prefix":       'app.http.prefix',
                 "serverPrefix": 'app.http.serverPrefix',
-                "formats":      'app.http.formats',
-                "login": {
-                    "abilities":'app.http.auth.login.abilities',
-                    "name":     'app.http.auth.login.name',
-                    "url":      'app.http.auth.login.url',
-                },
-                "timeouts": {
-                    "session":  'app.http.timeouts.session',
-                    "refresh":  'app.http.timeouts.refresh',
-                }
+                "timeouts": "app.http.timeouts"
             }
         }
     },
