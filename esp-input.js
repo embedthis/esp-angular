@@ -43,7 +43,6 @@ angular.module('esp.input', [])
                 var parts = name.split('.');
                 model = parts.slice(0, -1).join('.');
                 field = parts.slice(-1)[0];
-                console.log(model, field);
             } else {
                 return;
             }

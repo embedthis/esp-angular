@@ -20,11 +20,12 @@ angular.module('esp', ['esp.click', 'esp.edit', 'esp.field-errors', 'esp.fixnum'
     esp.$config = JSON.parse(config);
     esp.$config = angular.extend({
         timeouts: { session: 1800000},
-        auth: {login: {}},
+        auth: {},
         prefix:"",
         serverPrefix:"/do",
         formats:{response:"json"},
     }, esp.$config);
+    esp.$config.auth = angular.extend({login:{}}, esp.$config.auth);
 
     /* Convert abilities from an array to a hash */
     var abilities = {}
