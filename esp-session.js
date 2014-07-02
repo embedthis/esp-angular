@@ -1,7 +1,6 @@
 /*
     esp-session.js - Client side session storage service
  */
-'use strict';
 
 angular.module('esp.session', [])
 .factory('SessionStore', function() {

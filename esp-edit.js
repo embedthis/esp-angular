@@ -3,7 +3,6 @@
 
     <tag esp-edit="URL" ... />
  */
-'use strict';
 
 angular.module('esp.edit', [])
 .directive('espEdit', function (Esp, $location, $rootScope, $timeout) {

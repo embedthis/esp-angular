@@ -3,7 +3,6 @@
 
     <tag esp-click="URL" ... />
  */
-'use strict';
 
 angular.module('esp.click', [])
 .directive('espClick', function (Esp, $location, $rootScope, $timeout) {

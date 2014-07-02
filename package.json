@@ -1,7 +1,7 @@
 {
     "name": "esp-angular",
     "description": "Embedthis ESP for Angular",
-    "version": "5.0.0-rc2",
+    "version": "5.0.0",
     "keywords": [
         "esp",
     ],

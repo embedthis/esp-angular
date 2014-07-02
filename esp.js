@@ -1,15 +1,23 @@
 /*
     esp.js - Esp Angular Extension
- */
-// 'use strict';
-/*
+
     The Esp service provide a central place for ESP state.
     It places a "Esp" object on the $rootScope that is inherited by all $scopes.
     Alternatively, injecting the Esp service provides direct access using the Esp service object.
  */
-angular.module('esp', ['esp.click', 'esp.edit', 'esp.field-errors', 'esp.fixnum', 'esp.format', 'esp.input-group', 'esp.input', 
-                       'esp.resource', 'esp.session', 'esp.titlecase'])
-
+angular.module('esp', [
+    'esp.click', 
+    'esp.edit', 
+    'esp.field-errors', 
+    'esp.fixnum', 
+    'esp.format', 
+    'esp.input-group', 
+    'esp.input', 
+    'esp.resource', 
+    'esp.session', 
+    'esp.sockets',
+    'esp.titlecase'
+])
 .config(function() {
     /*
         Extract the route configuration data.
@@ -77,6 +85,7 @@ angular.module('esp', ['esp.click', 'esp.edit', 'esp.field-errors', 'esp.fixnum'
         success: 'success',
     };
 
+    //  MOB - rename 
     Esp.access = function(task) {
         if (Esp.user) {
             Esp.user.lastAccess = Date.now();
@@ -289,6 +298,7 @@ angular.module('esp', ['esp.click', 'esp.edit', 'esp.field-errors', 'esp.fixnum'
     $timeout(sessionTimeout, 0, true);
     return Esp;
 })
+
 .config(function($httpProvider, $routeProvider) {
     /*
         Define an Http interceptor to redirect 401 responses to the login page

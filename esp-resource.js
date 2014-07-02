@@ -1,7 +1,6 @@
 /*
     esp-resource.js - 
  */
-'use strict';
 
 angular.module('esp.resource', [])
 .factory('EspResource', function(Esp, $http, $parse, $q, $rootScope) {
@@ -100,7 +99,6 @@ angular.module('esp.resource', [])
                             data[key] = value;
                         }
                     });
-                    //  TODO - should be a function
                     angular.forEach(data, function(value, key) {
                         if (key == 'feedback') {
                             $rootScope[key] = value;

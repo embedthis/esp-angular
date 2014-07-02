@@ -1,7 +1,5 @@
 /*
-    esp-fixnum.js - Titlecase Filter
-
-    This filter caps the first letter of each word
+    esp-fixnum.js - Convert a number to a fixed number of digits
 
     number | fixnum
  */

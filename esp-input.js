@@ -2,13 +2,13 @@
     esp-input.js - ESP esp-input directive
 
     Attributes:
-        ng-model="MODEL.FIELD"  Angular model field object
-        type="type"       Input control type to render (checkbox, text, textarea, date, email, tel, url, search, color, number, range)
+        ng-model="MODEL.FIELD"  # Angular model field object
+        type="type"             # Input control type to render
         label="Text"
         labelClass="Class"
         inputClass="Class"
         filter="Filter"
-        value="Value"       # Use instead of model
+        value="Value"           # Use instead of model
 
     Expands to a datatype specific input element. This directive expects a $scope.schema to describe the datatype.
     <esp-input type="radio" ng-model="post.title" ...>
