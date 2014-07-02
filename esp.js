@@ -7,7 +7,6 @@
  */
 angular.module('esp', [
     'esp.click', 
-    'esp.edit', 
     'esp.field-errors', 
     'esp.fixnum', 
     'esp.format', 
@@ -97,13 +96,25 @@ angular.module('esp', [
     };
 
     /*
-        Is this user authorized to perform the given task
+        Is this user authorized with the requested abilities
         Note: this is advisory only to provide hints in the UI. It is the server's repsonsibility to
         restrict user abilities as appropriate.
      */
-    Esp.can = function(task) {
+    Esp.can = function(abilities) {
         var user = Esp.user
-        return (user && user.abilities && user.abilities[task]);
+        if (!user || !user.abilities) {
+            return false;
+        }
+        if (!(abilities instanceof Array)) {
+            return user.abilities[abilities];
+        }
+        var can = true;
+        angular.forEach(abilities, function(value,key) {
+            if (!user.abilities[value]) {
+                can = false;
+            }
+        });
+        return can;
     };
 
     /*
