@@ -1,12 +1,12 @@
 {
     "name": "esp-angular",
     "description": "Embedthis ESP for Angular",
-    "version": "5.0.0",
+    "version": "5.1.0",
     "keywords": [
         "esp",
     ],
     "dependencies": {
-        "esp-mvc": "~5.0",
+        "esp-mvc": "~5",
         "angular": "~1.2"
     },
     "licenses": [ {
