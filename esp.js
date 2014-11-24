@@ -277,14 +277,22 @@ angular.module('esp', [
         if (Esp.user && Esp.user.lastAccess && !Esp.user.auto) {
             if (Esp.user.fromSession) {
                 /* Verify user still logged in */
-                var User = $injector.get('User') || $injector.get('Auth');
-                User.check({}, function(response) {
-                    if (response.error) {
-                        Esp.logout();
-                        $location.path("/");
-                        $rootScope.feedback = { warn: "Session Expired, Please Log In"};
-                    }
-                });
+                var User;
+                if ($injector.has('User')) {
+                    User = $injector.get('User');
+                }
+                if ($injector.has('Auth')) {
+                    User = $injector.get('Auth');
+                }
+                if (User) {
+                    User.check({}, function(response) {
+                        if (response.error) {
+                            Esp.logout();
+                            $location.path("/");
+                            $rootScope.feedback = { warn: "Session Expired, Please Log In"};
+                        }
+                    });
+                }
             }
             var timeout = Esp.config.timeouts.session;
             if ((Date.now() - Esp.user.lastAccess) > timeout) {
