@@ -3,7 +3,7 @@
     "description": "Embedthis ESP for Angular",
     "version": "5.3.0",
     "keywords": [
-        "esp",
+        "esp"
     ],
     "dependencies": {
         "angular": "~1.2"
@@ -16,32 +16,11 @@
             "url": "https://embedthis.com/licensing/"
         }
     ],
-    "export": [ {
-            from: [
-                "*.js",
-            ],
-            to: '${LIB}/esp-angular',
-            overwrite: true,
-        }
+    "export": [
+        {  "from": "*.js",   "to": "esp-angular/", "type": "js" }
     ],
-    "app": {
-        "client": {
-            "+scripts": [
-                "${LIB}/esp-angular/*.js"
-            ],
-            "mappings": {
-                "auth": {
-                    "login": "app.http.auth.login",
-                    "store": "app.http.auth.store"
-                },
-                "formats":      'app.http.formats',
-                "prefix":       'app.http.prefix',
-                "serverPrefix": 'app.http.serverPrefix',
-                "timeouts": "app.http.timeouts"
-            }
-        }
-    },
-    "ignore": [
-        "doc/**",
-    ]
+    "blend": [
+        "esp.json"
+    ],
+    "ignore": [ "doc/**" ]
 }

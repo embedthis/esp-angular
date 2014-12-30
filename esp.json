@@ -1,0 +1,14 @@
+{
+    "http": {
+        "mappings": {
+            "auth": {
+                "login": "app.http.auth.login",
+                "store": "app.http.auth.store"
+            },
+            "formats":      "app.http.formats",
+            "prefix":       "app.http.prefix",
+            "serverPrefix": "app.http.serverPrefix",
+            "timeouts": "app.http.timeouts"
+        }
+    }
+}
