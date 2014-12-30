@@ -387,3 +387,4 @@ esp.checkAuth = function($q, $location, $rootScope, $route, Esp) {
     }
     return true;
 }
+esp.checkAuth['$inject'] = ["$q", "$location", "$rootScope", "$route", "Esp"];
