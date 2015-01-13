@@ -29,7 +29,6 @@ angular.module('esp', [
         timeouts: { session: 1800000},
         auth: {},
         prefix:"",
-        serverPrefix:"/do",
         formats:{response:"json"},
     }, esp.$config);
     esp.$config.auth = angular.extend({login:{}}, esp.$config.auth);
@@ -61,11 +60,7 @@ angular.module('esp', [
         esp.$config.timeouts[key] = timeout;
     });
 
-    if (esp.$config.prefix) {
-        esp.$config.server = esp.$config.prefix + esp.$config.serverPrefix;
-    } else {
-        esp.$config.server = esp.$config.serverPrefix;
-    }
+    esp.$config.server = esp.$config.prefix || "";
     /* URL resolution for ngRoute templates */
     esp.url = function(url) {
         return esp.$config.prefix + url;

@@ -17,10 +17,13 @@
         }
     ],
     "export": [
-        {  "from": "*.js",   "to": "esp-angular/", "type": "js" }
+        {  "from": "*.js", "to": "esp-angular/" }
     ],
+    "render": {
+        "js": "*.js"
+    },
     "blend": [
         "esp.json"
     ],
-    "ignore": [ "doc/**" ]
+    "ignore": [ "doc**" ]
 }
