@@ -5,9 +5,6 @@
     "keywords": [
         "esp"
     ],
-    "dependencies": {
-        "angular": "~1.2"
-    },
     "licenses": [ {
             "type": "GPL",
             "url": "http://www.gnu.org/licenses/gpl-2.0.html"
@@ -16,14 +13,23 @@
             "url": "https://embedthis.com/licensing/"
         }
     ],
-    "export": [
-        {  "from": "*.js", "to": "esp-angular/" }
-    ],
-    "render": {
-        "js": "*.js"
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/embedthis/esp-angular.git"
     },
-    "blend": [
-        "esp.json"
-    ],
-    "ignore": [ "doc**" ]
+    "dependencies": {
+        "angular": "~1.2"
+    },
+    "ignore": [ "doc**" ],
+    "pak": {
+        "export": {  
+            "from": "*.js", 
+            "to": "esp-angular/" 
+        },
+        "manage": "esp.json",
+        "render": {
+            "js": "*.js"
+        },
+        "version": ">=0.10.0"
+    }
 }
