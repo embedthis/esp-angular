@@ -27,9 +27,6 @@
             "to": "esp-angular/" 
         },
         "manage": "esp.json",
-        "render": {
-            "js": "*.js"
-        },
         "version": ">=0.10.0"
     }
 }
