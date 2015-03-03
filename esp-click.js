@@ -10,7 +10,7 @@ angular.module('esp.click', [])
     return {
         restrict: 'A',
         link: function (scope, element, attrs) {
-            attrs.$observe('esp-click', function(val) {
+            attrs.$observe('espClick', function(val) {
                 element.on('click', function() {
                     scope.$apply(function() {
                         var abilities;
