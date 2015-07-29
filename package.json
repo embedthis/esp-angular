@@ -1,14 +1,16 @@
 {
     "name": "esp-angular",
     "description": "Embedthis ESP for Angular",
-    "version": "5.4.0",
+    "version": "5.4.1",
     "keywords": [
         "esp"
     ],
-    "licenses": [ {
+    "licenses": [
+        {
             "type": "GPL",
             "url": "http://www.gnu.org/licenses/gpl-2.0.html"
-        }, {
+        },
+        {
             "type": "Commercial",
             "url": "https://embedthis.com/licensing/"
         }
@@ -21,11 +23,13 @@
         "angular-route": "~1.3",
         "angular-animate": "~1.3"
     },
-    "ignore": [ "doc**" ],
+    "ignore": [
+        "doc**"
+    ],
     "pak": {
-        "export": {  
-            "from": "*.js", 
-            "to": "esp-angular/" 
+        "export": {
+            "from": "*.js",
+            "to": "esp-angular/"
         },
         "manage": "esp.json",
         "version": ">=0.10.0"
