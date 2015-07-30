@@ -1,7 +1,7 @@
 {
     "name": "esp-angular",
     "description": "Embedthis ESP for Angular",
-    "version": "5.4.1",
+    "version": "5.4.2",
     "keywords": [
         "esp"
     ],
@@ -23,6 +23,9 @@
         "angular-route": "~1.3",
         "angular-animate": "~1.3"
     },
+    "devDependencies": {
+        "pak": ">=0.11.3"
+    },
     "ignore": [
         "doc**"
     ],
@@ -31,7 +34,6 @@
             "from": "*.js",
             "to": "esp-angular/"
         },
-        "manage": "esp.json",
-        "version": ">=0.10.0"
+        "manage": "esp.json"
     }
 }
