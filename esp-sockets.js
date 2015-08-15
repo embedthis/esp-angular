@@ -20,7 +20,7 @@ angular.module('esp.sockets', [])
     };
 
     Sockets.prototype = {
-        start: function(uri, onSuccess, onError, options) {
+        start: function() {
             this.stop();
             var uri;
             if (this.uri.indexOf(':') > 0) {
@@ -33,32 +33,35 @@ angular.module('esp.sockets', [])
             var ws = new WebSocket(uri, this.options.dialect);
             this.ws = ws;
             this.streaming = true;
-            var self = this;
+            ws.socket = this;
 
             ws.onmessage = function (event) {
+                var socket = this.socket;
                 console.log("Sockets: data: ", event.data);
                 angular.forEach(event.data, function(value, key) {
                     if (key == 'feedback') {
                         $rootScope[key] = value;
                     }
                 });
-                self.scope.$apply(function() {
+                socket.scope.$apply(function() {
                     Esp.access();
-                    self.onSuccess(angular.fromJson(event.data));
+                    socket.onSuccess(angular.fromJson(event.data));
                 });
             };
             ws.onclose = function (event) {
+                var socket = this.socket;
                 console.log("Sockets: close event " + event);
                 if (event.code != 1000) {
-                    if (self.onError) {
-                        self.onError(event);
+                    if (socket.onError) {
+                        socket.onError(event);
                     }
-                } 
-                if ($location.path() == this.page) {
-                    if (this.streaming) {
+                }
+                if ($location.path() == socket.page) {
+                    if (socket.streaming) {
                         /* Delay to stop busy-looping */
-                        var self = this;
-                        $timeout(function() { self.start(); }, 1 * 1000, true);
+                        $timeout(function() {
+                            socket.start();
+                        }, 1 * 1000, true);
                     }
                 }
             };
@@ -66,11 +69,12 @@ angular.module('esp.sockets', [])
                 Listen to location change events for a navigation away from this page
                 Store the listen handle (deregistration function) in off
              */
-            self.page = $location.path();
+            this.page = $location.path();
+            var socket = this;
             var off = $rootScope.$on("$locationChangeSuccess", function(scope, current, previous) {
                 /* Cancel the listening */
                 off();
-                self.stop();
+                socket.stop();
             });
         },
 
