@@ -61,7 +61,7 @@ angular.module('esp.sockets', [])
                         /* Delay to stop busy-looping */
                         $timeout(function() {
                             socket.start();
-                        }, 1 * 1000, true);
+                        }, 5 * 1000, true);
                     }
                 }
             };
