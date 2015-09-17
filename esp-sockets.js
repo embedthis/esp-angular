@@ -37,7 +37,7 @@ angular.module('esp.sockets', [])
 
             ws.onmessage = function (event) {
                 var socket = this.socket;
-                console.log("Sockets: data: ", event.data);
+                // console.log("Sockets: data: ", event.data);
                 angular.forEach(event.data, function(value, key) {
                     if (key == 'feedback') {
                         $rootScope[key] = value;
