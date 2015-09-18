@@ -99,7 +99,7 @@ angular.module('esp.input', [])
                             astr = astr.replace(/form-control/, '');
                             if (scope.options) {
                                 angular.forEach(scope.options[field], function(value, key) {
-                                    astr += ' ng-' + key + '-value="' + value + '"';
+                                    astr += ' ng-' + key + '-value="\'' + value + '\'"';
                                 });
                             }
                             html =  '<label class="checkbox">' + 
